@@ -10,10 +10,10 @@
 
   //定义变量
   var PADDING = 5;
-  var GRID_WIDTH = 35;//水平格子数
-  var GRID_HEIGHT = 35;//垂直格子数
-  var WIDTH = 20;//方块宽度,单位像素
-  var HEIGHT = 20;//方块高度,单位像素
+  var GRID_WIDTH = 20;//水平格子数
+  var GRID_HEIGHT = 20;//垂直格子数
+  var WIDTH = 30;//方块宽度,单位像素
+  var HEIGHT = 30;//方块高度,单位像素
   var POWER = 10;//初始电能
 
   var blocks = [];
@@ -116,7 +116,7 @@
   //绘制文字
   var drawText = function(gridX, gridY, text, color) {
     ctx.fillStyle = color || 'black';
-    ctx.font = '18px Georgia';
+    ctx.font = '20px Georgia';
     ctx.textAlign = 'center';
     ctx.textBaseline="middle";
     ctx.fillText(text, gridX*WIDTH+WIDTH/2, gridY*HEIGHT+HEIGHT/2);
