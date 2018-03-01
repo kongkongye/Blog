@@ -6,26 +6,26 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: 网站标题
-brief-intro: 网站描述
-home_title: 主页标题
-home_description: 主页描述
+title: 空空叶博客
+brief-intro: 学习与开发笔记
+home_title: 空空叶博客
+home_description: 学习与开发笔记
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://www.kongkongye.com" # the base hostname & protocol for your site
+url: "http://blog.kongkongye.com" # the base hostname & protocol for your site
 
 permalink: /:year/:month/:day/:title/
 
 # other links
-twitter_username: 
-facebook_username: 
+twitter_username:
+facebook_username:
 github_username: kongkongye
 email: kongkongye@163.com
-weibo_username: 
-zhihu_username: 
-linkedIn_username: 
+weibo_username: 15268875699
+zhihu_username:
+linkedIn_username:
 dribbble_username:
 
-description_footer: 底部描述!
+description_footer: 给自己定了个小目标,每周发一篇博客!
 
 # statistic analysis 统计代码
 # 百度统计 id，将统计代码替换为自己的百度统计id，即
@@ -55,4 +55,4 @@ excerpt_separator: "\n\n\n\n"
 plugins: [jekyll-paginate]
 paginate: 6
 
-keep_files: ["imgs"]
+keep_files: ["imgs", "resources"]
