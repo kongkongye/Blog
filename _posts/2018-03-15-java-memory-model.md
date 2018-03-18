@@ -115,7 +115,9 @@ java8中移除了PermGen(永久代),使用Metaspace(元空间)代替.
 * `-XX:+UseParNewGC -XX:+UseConcMarkSweepGC`
 * `-XX:+UseG1GC`
 
-## GC(Garbage Collection,垃圾回收)
+## GC
+GC即Garbage Collection,垃圾回收的意思
+
 ### GC类型
 * `Minor GC/Young GC/小型GC`: 只对`Young Generation(新生代)`进行GC
 
@@ -162,8 +164,6 @@ PS: 通过遍历`GC Roots`来判断对象是否可达,其中GC Roots包括`局�
 
 ### GC收集器
 收集器即GC算法的具体实现.
-
-吞吐量(Throughput): 运行用户代码时间/(运行用户代码时间+垃圾收集时间)
 
 * JVM运行在Client模式时,默认使用`Serial(新生代) + SerialOld(老生代)`
 * JVM运行在Server模式时,默认使用`ParallelScavenge(新生代) + SerialOld(老生代)`
@@ -255,6 +255,20 @@ PS: 通过遍历`GC Roots`来判断对象是否可达,其中GC Roots包括`局�
 
         与其它分析器相比,它的优点是`占用资源少`,同时可以得到`精确的统计结果`
         (而其它分析器可能占用资源多,并且为了减少资源占用,会采用取样的方式,导致统计结果并不精确)
+
+### 性能指标
+* `Throughput(吞吐量)`: 运行用户代码时间/(运行用户代码时间+垃圾收集时间)
+* `Allocation rate(分配速率)`: 单位可以用`MB/s`,分配速率过高会影响程序性能,造成巨大GC开销.
+
+    分配速率可以从GC日志中得到,值=(`下一次GC前新生代用量`-`上一次GC后新生代用量`)/时间
+
+* `Promotion rate(提升速率)`: 单位可以用`MB/s`,提升速度过高会造成老生代快速填满,增加Major GC的次数.
+
+    提升速率可以从GC日志中得到,值=(`新生代减少的量`-`整个堆内存减少的量`)/时间.(在`Minor GC`时)
+    (不能根据Major GC的日志计算,因为Major GC时会清理掉老生代中的部分对象)
+
+    `过早提升`: 对象存活时间还不够长就被提升到了老生代,会影响老生代的GC效率.
+    表现为短时间内频繁Major GC,并且每次Major GC后老生代使用率都很低,提升速率接近分配速率.
 
 ### 建议
 #### 稳定的堆与动荡的堆
