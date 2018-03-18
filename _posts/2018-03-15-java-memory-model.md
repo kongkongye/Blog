@@ -9,7 +9,7 @@ author: kongkongye
 * content
 {:toc}
 
-本文研究java8的内存模型
+本文研究了java8的内存模型,包括参数配置,GC与优化等
 
 
 
@@ -29,7 +29,7 @@ author: kongkongye
 4. `Heap(堆)`: 所有线程共享,所有对象和数组都在堆上分配,堆可以通过GC进行回收.
 5. `Method Area(方法区/非堆)`: 所有线程共享,主要存储类的信息,常量池,变量池,静态变量,方法代码等.
 
-Heap(堆)内存模型为:
+Heap(堆)内存池模型为:
 
 * `Young Generation(新生代/年轻代)`
     * `Eden Space(伊甸园区)`: 新对象会放到这个区,GC后未回收的进入Survivor Space(幸存者区)
@@ -94,25 +94,34 @@ java8中移除了PermGen(永久代),使用Metaspace(元空间)代替.
 ### GC
 * `-XX:+PrintGC`/`-XX:+PrintGCDetails`: 输出GC日志/详细日志
 * `-XX:+PrintGCTimeStamps`: 输出GC的时间戳(单位秒,从JVM启动开始计算)
-* `-XX:+PrintGCDateStamps`: 输出GC时间(日期的格式)
+* `-XX:+PrintGCDateStamps`: 输出GC的时间点(日期的格式)
 * `-XX:+PrintHeapAtGC`: 在GC前后打印堆信息
 * `-Xloggc:<文件名>`: GC日志文件输出路径
 
 ### GC收集器
 * `-XX:+UseSerialGC`: 使用`Serial(新生代) + SerialOld(老生代)`
-* `-XX:+UseParNewGC`: 使用`ParNew(新生代) + SerialOld(老生代)`
+* `-XX:+UseParNewGC`: 使用`ParallelNew(新生代) + SerialOld(老生代)`
 * `-XX:+UseParallelGC`: 使用`ParallelScavenge(新生代) + SerialOld(老生代)`
 
     * `-XX:+UseParallelOldGC`: 如果这个参数一起开启,则会使用`ParallelScavenge(新生代) + ParallelOld(老生代)`,这样老生代效率也更好
     * `-XX:+UseAdaptiveSizePolicy`: 开启自适应调节策略,这个参数打开后,新生代大小,伊甸园与幸存者区比例,晋升年龄阀值等就不需要手动指定了(默认开启)
 
-* `XX:+UseConcMarkSweepGC`: 使用`ParNew(新生代) + CMS(老生代) + SerialOld(老生代备用,CMS失败时启用)`
+* `XX:+UseConcMarkSweepGC`: 使用`ParallelNew(新生代) + CMS(老生代) + SerialOld(老生代备用,CMS失败时启用)`
+
+而在生产环境上,一般使用的是以下几种组合:
+
+* `-XX:+UseSerialGC`
+* `-XX:+UseParallelGC -XX:+UseParallelOldGC`
+* `-XX:+UseParNewGC -XX:+UseConcMarkSweepGC`
+* `-XX:+UseG1GC`
 
 ## GC(Garbage Collection,垃圾回收)
 ### GC类型
 * `Minor GC/Young GC/小型GC`: 只对`Young Generation(新生代)`进行GC
 
     将`Eden Space`内未回收的对象与另一个`Survivor`内的对象都放入空的那个`Survivor`里,保持始终有一个`Survivor`为空.
+
+    此GC实际上忽略了老生代,从老生代指向新生代的引用都被认为是GC Root.
 
 * `Major GC/Full GC/大型GC`: 会对整个堆进行GC(主要对老生代进行GC,也可能会对新生代以及永久代/元空间进行GC)
 
@@ -131,7 +140,11 @@ java8中移除了PermGen(永久代),使用Metaspace(元空间)代替.
 
     缺点是`浪费一半内存`,如果对象存活率很高,那么复制时间将很长.
 
-* `分代搜集`: 相当于以上几种算法的结合.此算法假定大部分都是短期对象,只有少数是长期对象(现实中大部分java程序都符合).因此,针对不同生命周期的对象采用不同的GC策略,这即是分代收集算法的由来.
+* `分代搜集`: 相当于以上几种算法的结合.此算法假定大部分都是短期对象,只有少数是长期对象,现实中大部分java程序都符合,如下图:
+
+    ![](/imgs/2018-03-15-java-memory-model/age.png)
+
+    因此,针对不同生命周期的对象采用不同的GC策略,这即是分代收集算法的由来.
 
     * `短期对象`: 朝生夕死,生命周期很短的对象(如局部变量,循环内的变量等).放在新生代中,采用`复制`算法,这里假定大部分对象都是短期对象,因此GC时复制的对象数量很少,速度很快.
 
@@ -145,35 +158,39 @@ java8中移除了PermGen(永久代),使用Metaspace(元空间)代替.
         2. 后来,考虑到这些对象几乎不会销毁,因此放在独立的`PermGen(永久代)`中
         3. java8开始,使用`Metaspace(元空间)`代替永久代
 
-PS: 通过遍历`GC Roots`来判断对象是否可达.
+PS: 通过遍历`GC Roots`来判断对象是否可达,其中GC Roots包括`局部变量`,`活动线程`,`静态域`,`JNI引用`等
 
 ### GC收集器
+收集器即GC算法的具体实现.
+
 吞吐量(Throughput): 运行用户代码时间/(运行用户代码时间+垃圾收集时间)
 
 * JVM运行在Client模式时,默认使用`Serial(新生代) + SerialOld(老生代)`
 * JVM运行在Server模式时,默认使用`ParallelScavenge(新生代) + SerialOld(老生代)`
 
-#### 新生代收集器:
+#### 新生代收集器
 
 * `Serial收集器`: 单线程收集器,收集时,暂停其它工作线程.
 
     CPU利用率最高,停顿时间较长.适合单CPU环境与小型应用.
 
-* `ParNew收集器`: Serial收集器的多线程版本,多线程扫描并压缩堆.
+* `ParallelNew收集器`: Serial收集器的多线程版本,多线程扫描并压缩堆.
 
     停顿时间短,回收效率高,吞吐量大.适合大型应用.
 
 * `ParallelScavenge收集器`: 目标是达到可控制的吞吐量,使用多线程.
 
-#### 老生代收集器:
+    此GC目标是吞吐量大,但停顿时间可能比较长.适合后台应用.
+
+#### 老生代收集器
 
 * `SerialOld收集器`: Serial收集器的老生代版本
 * `ParallelOld收集器`: ParallelScavenge收集器的老生代版本
-* `CMS收集器`: Concurrent Mark Sweep, 采用`标记-清除算法`,使用多线程扫描堆.
+* `CMS收集器`: Concurrent Mark Sweep(并发的标记-清除), 采用`标记-清除算法`,使用多线程扫描堆.
 
-    响应时间优先,停顿时间短.适合服务器.
+    响应时间优先,停顿时间短.适合重交互式的服务器.
 
-#### 新生/老生代收集器:
+#### 新生/老生代收集器
 
 * `G1收集器`: 在G1中,堆被划分为许多连续的区域(region).
 
@@ -218,25 +235,47 @@ PS: 通过遍历`GC Roots`来判断对象是否可达.
 
 ## 优化
 
-### 稳定的堆与动荡的堆
+### 工具
+* `jmx`: 以下几个工具都可以连接到本地jvm或使用jmx连接到远程服务器,并且有客户端界面
+    * `Java Mission Control(Java控制中心)`: jdk的bin目录下的`jmc`
+    * `JVisualVM`: jdk的bin目录下的`jvisualvm`,可以安装各种插件
+    * `JConsole`: jdk的bin目录下的`jconsole`
+* `jstat`: 没有客户端界面,因此可以直接在服务器上使用(也可以使用rmi连接远程服务器)
+* `GC日志`: 查看上文介绍,会打印出每次程序的GC日志,适合在服务器上使用.
+* `GCViewer`: [GCViewer](https://github.com/chewiebug/GCViewer)是开源的日志分析工具,简单的说就是GC日志的图形化展示工具.
+
+    可以导入`GC日志`,会分析显示图表并显示出一系列的数据与指标.
+
+    重要的是它涵盖了大部分的java虚拟机与收集器(否则你只能去读冗长复杂的GC日志,而且不同收集器打印出的GC日志格式也不完全一致).
+
+* `Profilers(分析器/抽样器)`: 简单说就是分析对象的`大小`与`定位`.能确定哪种类型对象最占用内存,以及定位到在哪里创建的对象,以及哪些线程创建了最多的对象.
+    * `hprof`: 添加启动参数`-agentlib:hprof=heap=sites`,在程序退出时,会打印出dump到`java.hprof.txt`文件内
+    * `JVisualVM`
+    * `AProf`: 它被设计为可以在生产环境使用.
+
+        与其它分析器相比,它的优点是`占用资源少`,同时可以得到`精确的统计结果`
+        (而其它分析器可能占用资源多,并且为了减少资源占用,会采用取样的方式,导致统计结果并不精确)
+
+### 建议
+#### 稳定的堆与动荡的堆
 一般来说,稳定的堆对GC比较有利.
 
 将xmx与xms设置为相同的值可以获取稳定的堆.
 
 稳定堆的好处是可以`减少GC次数`,坏处是`增加了每次GC的时间`
 
-### 对象年龄
+#### 对象年龄
 每个堆中的对象都有年龄,每次GC后年龄加1,当年龄达到阀值,就移入老生代.
 
 这个年龄阀值可以用`-XX:MaxTenuringThreshold`来设置,但并不意味着必须要达到这个年龄才会进入老生代(实际晋升年龄是综合`-XX:TargetSurvivorRatio`动态计算的)
 
-### 让大对象进入老生代
+#### 让大对象进入老生代
 大对象出现在新生代容易扰乱新生代的GC,并破坏新生代原有的对象结构.
 因为在尝试分配大对象时,很可能导致空间不足,因此JVM会尝试将大量的年轻小对象移入老生代,这对GC不利.
 
 可以通过设置`-XX:PetenureSizeThreshold`来让大对象直接进入老生代
 
-### 避免短期的大对象
+#### 避免短期的大对象
 这个违反了分代算法依据的原则,应该尽量避免.
 
 假设短期大对象放在新生代,那么复制算法将花费大量时间.
