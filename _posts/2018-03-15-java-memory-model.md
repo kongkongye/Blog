@@ -46,13 +46,7 @@ PermGen(永久代)是`HotSpot`对JVM规范中的Method Area(方法区)的具体�
 
 java8中移除了PermGen(永久代),使用Metaspace(元空间)代替.
 最大区别在于: `元空间使用本地内存,而不在虚拟机中`.
-
-默认情况下,Metaspace(元空间)的上限没有限制,只受制于本地内存大小.可用主要参数(一般不需要设置):
-
-* `-XX:MetaspaceSize`: 初始空间
-* `-XX:MaxMetaspaceSize`: 最大空间
-* `-XX:MinMetaspaceFreeRatio`: GC后,最小的空闲空间百分比,如40,如果空闲空间小于这个值,就会增加内存(值设太小可能会影响后面类加载效率,设太大会浪费内存)
-* `-XX:MaxMetaspaceFreeRatio`: GC后,最大的空间空间百分比,如70,如果空闲空间大于这个值,就会释放部分
+默认情况下,Metaspace(元空间)的上限没有限制,只受制于本地内存大小.
 
 使用Metaspace(元空间)的优点:
 
@@ -90,6 +84,14 @@ java8中移除了PermGen(永久代),使用Metaspace(元空间)代替.
 3. `-XX:NewRatio`: 老生代与新生代的比例(如4表示老生代:新生代=4:1=4,即新生代占整个堆的1/5)
 
 此值对系统性能影响较大,官方推荐新生代为堆大小的`3/8`(即老生代占5/8)
+
+### 元空间
+(一般不需要设置)
+
+* `-XX:MetaspaceSize`: 初始空间
+* `-XX:MaxMetaspaceSize`: 最大空间
+* `-XX:MinMetaspaceFreeRatio`: GC后,最小的空闲空间百分比,如40,如果空闲空间小于这个值,就会增加内存(值设太小可能会影响后面类加载效率,设太大会浪费内存)
+* `-XX:MaxMetaspaceFreeRatio`: GC后,最大的空间空间百分比,如70,如果空闲空间大于这个值,就会释放部分
 
 ### GC
 * `-XX:+PrintGC`/`-XX:+PrintGCDetails`: 输出GC日志/详细日志
@@ -176,7 +178,7 @@ PS: 通过遍历`GC Roots`来判断对象是否可达,其中GC Roots包括`局�
 
 * `ParallelNew收集器`: Serial收集器的多线程版本,多线程扫描并压缩堆.
 
-    停顿时间短,回收效率高,吞吐量大.适合大型应用.
+    停顿时间短,回收效率高,吞吐量大.适合重交互式的服务器.
 
 * `ParallelScavenge收集器`: 目标是达到可控制的吞吐量,使用多线程.
 
