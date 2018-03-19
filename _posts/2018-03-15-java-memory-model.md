@@ -70,7 +70,7 @@ java8中移除了PermGen(永久代),使用Metaspace(元空间)代替.
 
     如果比例太小,即伊甸园太小,那么新生代GC次数将增加;如果比例太大,那么大部分幸存对象会过早转移到老生代.
 
-* `-XX:PetenureSizeThreshold`: 大对象直接进入老生代的阀值,单位Byte
+* `-XX:PretenureSizeThreshold`: 大对象直接进入老生代的阀值,单位Byte
 
 ### 年龄
 * `-XX:TargetSurvivorRatio`: 幸存者区目标使用率,默认50(大致表示达到50%使用率时对象会向老生代压缩)
@@ -289,7 +289,7 @@ PS: 通过遍历`GC Roots`来判断对象是否可达,其中GC Roots包括`局�
 大对象出现在新生代容易扰乱新生代的GC,并破坏新生代原有的对象结构.
 因为在尝试分配大对象时,很可能导致空间不足,因此JVM会尝试将大量的年轻小对象移入老生代,这对GC不利.
 
-可以通过设置`-XX:PetenureSizeThreshold`来让大对象直接进入老生代
+可以通过设置`-XX:PretenureSizeThreshold`来让大对象直接进入老生代
 
 #### 避免短期的大对象
 这个违反了分代算法依据的原则,应该尽量避免.
