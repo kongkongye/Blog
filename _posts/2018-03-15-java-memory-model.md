@@ -39,6 +39,8 @@ Heap(堆)内存池模型为:
 
 * `Old Generation(老生代/老年代)`
 
+![](/imgs/2018-03-15-java-memory-model/Java内存模型.png)
+
 ### PermGen(永久代)与Metaspace(元空间)
 PermGen(永久代)是`HotSpot`对JVM规范中的Method Area(方法区)的具体实现.
 
@@ -119,6 +121,8 @@ java8中移除了PermGen(永久代),使用Metaspace(元空间)代替.
 
 ## GC
 GC即Garbage Collection,垃圾回收的意思
+
+![](/imgs/2018-03-15-java-memory-model/GC.png)
 
 ### GC类型
 * `Minor GC/Young GC/小型GC`: 只对`Young Generation(新生代)`进行GC

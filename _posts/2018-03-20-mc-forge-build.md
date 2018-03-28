@@ -23,6 +23,8 @@ author: kongkongye
 
 
 
+![](/imgs/2018-03-20-mc-forge-build/Forge搭建教程.png)
+
 ## 名词概念
 * `MCP(Minecraft Coder Pack)`: [官方wiki](https://minecraft.gamepedia.com/Programs_and_editors/Mod_Coder_Pack),这是Minecraft反编译/反混淆代码工具包,虽然它违反了著作权法,但因为mod的制作基于对源代码的解析,因此mojiang一直是默许的.如果某个mc版本没有对应的MCP释放出来,就没法开发对应的mod.但是在Forge出来后,MCP已经逐渐没落.
 * `FML(ForgeModLoader)`: 是`ModLoader`的代替品,作用就是加载mod,在一定程度上解决MOD冲突.虽然`FML`与`Forge`一直是一起发行的,但从代码角度,它们是独立的.
