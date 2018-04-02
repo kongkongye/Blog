@@ -23,7 +23,7 @@ author: kongkongye
 ## 六大原则
 1. `开闭原则(Open Close Principle)`: 对扩展开放,对修改关闭.
 2. `里氏代换原则(Liskov Substitution Principle)`: 任何基类可以出现的地方,子类一定可以出现.这是对开闭原则的补充.
-3. `依赖倒转原则(Dependence Inversion Principle)`: 针对接口编程,依赖于接口而不依赖于具体实现.这是开闭原则的基础.
+3. `依赖倒转原则(Dependence Inversion Principle)`: 针对接口编程,依赖于接口而不依赖于具体实现.这是开闭原则的基础.(高层模块不依赖于低层模块,两者都依赖于其抽象)
 4. `接口隔离原则(Interface Seregation Principle)`: 使用多个隔离的接口比使用单个的接口好,降低类之间的耦合度.
 5. `迪米特法则/最少知道原则(Demeter Principle)`: 一个实体应该尽量少与其它实体发生相互作用,使功能模块相对独立.
 6. `合成复用原则(Composite Reuse Principle)`: 尽量使用合成/聚合的方式,而不是继承.
