@@ -34,8 +34,8 @@ author: kongkongye
 ## 搭建开发环境
 1. `下载开发工具包`: 在[Forge官网](http://files.minecraftforge.net/)下载`Mdk`,里面包含了所有进行Forge开发需要的东西
 2. `新建Forge项目`: 新建一个项目文件夹,将mdk内的`build.gradle`,`gradlew.bat`(windows),`gradlew`(\*inx),`gradle目录`复制过去
-3. `初始化开发环境`: 在项目文件夹内运行`gradlew setupDecompWorkspace`,下载一些东西,用来反编译mc源码,构建mc与Forge等.(只需要进行一次,除非删除gradle缓存)
-4. `导入项目`: 如果你用eclipse,运行`gradlew eclipse`;如果你用idea,选择导入`build.gradle`,然后运行`gradlew genIntellijRuns`.
+3. `初始化开发环境`: 在项目文件夹内运行`./gradlew setupDecompWorkspace`,下载一些东西,用来反编译mc源码,构建mc与Forge等.(只需要进行一次,除非删除gradle缓存)
+4. `导入项目`: 如果你用eclipse,运行`./gradlew eclipse`;如果你用idea,选择导入`build.gradle`,然后运行`./gradlew genIntellijRuns`.
 
 ## 开始开发
 在下载的mdk的src文件夹内,有一个样例mod,你可以将它复制过来使用.
