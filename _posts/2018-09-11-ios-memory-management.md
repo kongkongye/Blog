@@ -95,6 +95,28 @@ error = tmp; //此处为对象赋值
 
 简单的说就是,变量标识符其实就`__strong`与`__weak`,至于`__autoreleasing`只是objc搞出来专门给以引用传入的方法参数用的.
 
+## @autoreleasepool
+即使用了ARC,`@autoreleasepool`仍然是可以用的.
+
+默认情况下,整个应用外面(在main.m内)有个`@autoreleasepool`,但你可以在里面添加更多.
+
+有什么用?当然是优化性能,一般用在一个大的循环中,如:
+
+```objc
+- (void)useALoadOfNumbers {
+    for (int j = 0; j < 10000; ++j) {
+        @autoreleasepool {
+            for (int i = 0; i < 10000; ++i) {
+                NSNumber *number = [NSNumber numberWithInt:(i+j)];
+                NSLog(@"number = %p", number);
+            }
+        }
+    }
+}
+```
+
+(但是又有言论称编译器已经做了优化,用跟不用效果差不多...后续继续观察吧)
+
 ## 引用循环
 很简单,就比如A引用B,B引用A,就引用循环了,这样就没法释放了.
 
