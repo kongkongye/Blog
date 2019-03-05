@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  react native
-categories: js
+categories: rn
 tags:  react native
 author: kongkongye
 ---

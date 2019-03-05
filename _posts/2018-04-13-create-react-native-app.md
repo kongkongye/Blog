@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  create-react-native-app
-categories: js
+categories: rn
 tags:  react native
 author: kongkongye
 ---

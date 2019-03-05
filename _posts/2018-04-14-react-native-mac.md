@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  在mac下为ios进行react native开发
-categories: js
+categories: rn
 tags:  react native
 author: kongkongye
 ---
