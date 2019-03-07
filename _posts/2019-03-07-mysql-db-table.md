@@ -76,18 +76,18 @@ mysql分库分表研究.
 :---:|:---:|:---:|:---:
 Mysql fabric|官方|非代理|无
 MySQL Proxy|官方|代理|无
-ProxySQL|\|代理|\
+ProxySQL|-|代理|-
 Atlas|360|代理|Mysql Proxy
 DBProxy|美团|代理|Atlas
-sharding-jdbc|apache|\|jdbc
-Cobar|阿里巴巴|代理|\
+sharding-jdbc|apache|-|jdbc
+Cobar|阿里巴巴|代理|-
 TDDL|阿里巴巴|非代理|jdbc
-TSharding|蘑菇街|\|mybatis
-Vitess|youtube|代理|\
-MaxScale|MariaDB|\|\
-Amoeba|\|代理|\
-mycat|\|\|\
-Hibernate Shards|\|\|hibernate
+TSharding|蘑菇街|-|mybatis
+Vitess|youtube|代理|-
+MaxScale|MariaDB|-|-
+Amoeba|-|代理|-
+mycat|-|-|-
+Hibernate Shards|-|-|hibernate
 
 ### 常见问题
 #### 后台报表join的表有n个,分库后怎么查?
