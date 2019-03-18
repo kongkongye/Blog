@@ -283,5 +283,9 @@ spring aop使用动态代理,基本规则如下:
 * cglib不能对`final类`进行继承,也不能覆盖`final方法`
 * 性能上,从jdk6,7,8,jdk代理的性能得到了显著提升,而cglib的表现并未跟上.新版本情况下jdk代理的性能比cglib高.
 
-### 不同动态代理对spring事务管理的影响
-todo
+### spring aop在spring事务管理中的应用
+spring事务管理建立在spring aop机制上,是spring aop机制的典型应用.
+
+spring允许使用aspectj注解用于定义,但并不使用aspectj的编译器或织入器,底层依然使用spring aop
+
+为了启用spring对@AspectJ配置的支持,需要添加`@EnableAspectJAutoProxy`
