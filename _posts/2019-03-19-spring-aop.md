@@ -19,19 +19,19 @@ spring aop(Aspect-oriented Programming)学习
 * 记录日志
 
 ## spring aop相关概念
-* `Aspect(方面)`: 横切多个类的一系列关系,spring的事务管理就是一个很好的例子.在spring aop内,方面使用xml方式+类或@Aspect+类实现
+* `Aspect(切面)`: 横切多个类的一系列关系,spring的事务管理就是一个很好的例子.在spring aop内,切面使用xml方式+类或@Aspect+类实现
 * `JoinPoint(连接点)`: 执行程序中的一个连接点,如方法的执行或异常的处理.在spring aop中,只有方法的执行这一个连接点
-* `Advice(建议)`: 在特定连接点执行的动作.动作类型包含:
+* `Advice(增强/通知)`: 在特定连接点执行的动作.动作类型包含:
     * around: 功能最强大
     * before: 方法调用前运行,但无法阻止正常执行流除非抛出异常
     * after returning: 方法无异常正常返回时运行
     * after throwing: 抛出异常后运行
     * after finally: 方法退出后运行(无论正常还是异常退出)
-* `Pointcut()`: 符合指定条件的连接点.通常与建议一起使用,如执行指定名字的方法时
-* `Introduction`: 
-* `Target Object(目标对象)`: 被一个或多个方面建议的目标对象(在spring内这总是一个代理对象)
+* `Pointcut(切点)`: 符合指定条件的连接点.通常与Advice一起使用,如执行指定名字的方法时
+* `Introduction(引入/引介)`: 向一个现有类添加新方法/属性
+* `Target Object(目标对象)`: 被一个或多个切面Advice的目标对象(在spring内这总是一个代理对象)
 * `AOP proxy`: AOP代理对象,在spring内是jdk动态代理或cglib动态代理
-* `Weaving(编织)`: 连接方面与其他应用对象来创建被建议的对象.这个操作可以在编译时,加载时或运行时完成.在spring内是在运行时进行编织的.
+* `Weaving(织入)`: 连接切面与其他应用对象来创建被Advice的对象.这个操作可以在编译时,加载时或运行时完成.在spring内是在运行时进行织入的.
 
 ## spring aop的能力与目标
 使用纯java实现,不需要特殊的编译器,spring aop不准备提供最完整的aop功能,也不会与aspecj竞争,它的目标是提供aop与ioc的集成,来解决常见的企业应用问题.

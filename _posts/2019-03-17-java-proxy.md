@@ -281,7 +281,7 @@ spring aop使用动态代理,基本规则如下:
 ### jdk代理与cglib比较
 * jdk代理需要有`接口`才能使用
 * cglib不能对`final类`进行继承,也不能覆盖`final方法`
-* 性能上,从jdk6,7,8,jdk代理的性能得到了显著提升,而cglib的表现并未跟上.新版本情况下jdk代理的性能比cglib高.
+* 性能上,创建性能jdk比cglib高,运行性能jdk比cglib低(但从jdk6,7,8,jdk代理的性能得到了显著提升,而cglib的表现并未跟上)
 * jdk动态代理是jdk支持的,cglib动态代理是在spring-core包中
 * 在spring4.0前,cglib代理方式需要生成被代理的类实例与代理子类实例,因此构造方法将被调两次,但4.0后,spring使用`Objenesis`来避免生成代理实例时调用构造方法,因此构造方法会正常的调用一次
 
