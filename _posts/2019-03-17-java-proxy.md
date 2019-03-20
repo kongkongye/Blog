@@ -10,7 +10,7 @@ author: kongkongye
 {:toc}
 
 本文主要研究java代理与spring代理.
-通常我们说的spring代理可以分类如下:
+通常我们说的代理可以分类如下:
 
 * 动态代理
     * JDK动态代理
