@@ -220,3 +220,10 @@ public void audit(JoinPoint jp, Object bean, Auditable auditable) {
 3. 同一aspect,相同多个advice的执行顺序: 无法确定,解决方式:
     1. 将两个advice合并为一个
     2. 将两个advice放到不同aspect中
+
+## xml方式的不足
+* xml需要与java代码结合,两者是分离的
+* xml比java代码多点限制
+
+## 注意事项
+* 在`<tx:annotation-driven/>`或`<aop:aspectj-autoproxy/>`或`<aop:config/>`中任一配置`proxy-target-class="true"`将会使他们全都使用cglib代理

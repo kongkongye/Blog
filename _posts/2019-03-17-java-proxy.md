@@ -282,6 +282,8 @@ spring aop使用动态代理,基本规则如下:
 * jdk代理需要有`接口`才能使用
 * cglib不能对`final类`进行继承,也不能覆盖`final方法`
 * 性能上,从jdk6,7,8,jdk代理的性能得到了显著提升,而cglib的表现并未跟上.新版本情况下jdk代理的性能比cglib高.
+* jdk动态代理是jdk支持的,cglib动态代理是在spring-core包中
+* 在spring4.0前,cglib代理方式需要生成被代理的类实例与代理子类实例,因此构造方法将被调两次,但4.0后,spring使用`Objenesis`来避免生成代理实例时调用构造方法,因此构造方法会正常的调用一次
 
 ### spring aop在spring事务管理中的应用
 spring事务管理建立在spring aop机制上,是spring aop机制的典型应用.
@@ -289,3 +291,17 @@ spring事务管理建立在spring aop机制上,是spring aop机制的典型应�
 spring允许使用aspectj注解用于定义,但并不使用aspectj的编译器或织入器,底层依然使用spring aop
 
 为了启用spring对@AspectJ配置的支持,需要添加`@EnableAspectJAutoProxy`
+
+### spring aop中调用自身方法无法拦截
+由于spring aop的代理机制,被代理的对象内方法调用内部的方法是无法拦截的.
+
+spring aop代理机制会生成一个被代理的对象实例,再生成一个代理对象实例,像注入都是注入的代理对象,
+因此如果从外部代理对象开始调用,那么可以被aop拦截,但在被代理对象方法内调用自身方法,this指向的是被代理对象,因此aop无法拦截
+
+如何解决?
+
+1. 重构代码,确保不会调用自身方法
+2. 注入类自身,如在UserService里`@Autowired private UserService self;`
+3. 使用`((Pojo) AopContext.currentProxy()).xxx();`(不推荐,spring框架代码侵入,还需要代理配置expose proxy)
+
+(提示: aspectj不会有这个问题)
