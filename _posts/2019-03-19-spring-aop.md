@@ -17,6 +17,7 @@ spring aop(Aspect-oriented Programming)面向切面编程学习
 ## 适用场景
 * 事务管理
 * 记录日志
+* 权限控制
 
 ## spring aop相关概念
 * `Aspect(切面)`: 横切多个类的一系列关系,spring的事务管理就是一个很好的例子.在spring aop内,切面使用xml方式+类或@Aspect+类实现
@@ -33,7 +34,7 @@ spring aop(Aspect-oriented Programming)面向切面编程学习
 * `AOP proxy`: AOP代理对象,在spring内是jdk动态代理或cglib动态代理
 * `Weaving(织入)`: 连接切面与其他应用对象来创建被Advice的对象.这个操作可以在编译时,加载时或运行时完成.在spring内是在运行时进行织入的.
 
-## spring aop的能力与目标
+## spring aop的目标
 使用纯java实现,不需要特殊的编译器,spring aop不准备提供最完整的aop功能,也不会与aspecj竞争,它的目标是提供aop与ioc的集成,来解决常见的企业应用问题.
 
 ## @AspectJ支持
@@ -44,7 +45,7 @@ spring aop(Aspect-oriented Programming)面向切面编程学习
 * xml方式: `<aop:aspectj-autoproxy/>`
 
 ### 定义Aspect
-在类上使用`@Aspect`注解(同时要加个如@Component注解,否则不会被spring自动搜索到)
+在类上使用`@Aspect`注解(同时要加个如@Component注解,否则不会被spring组件搜索自动搜索到)
 
 ### 定义Pointcut
 Pointcut方法必须返回`void`
@@ -114,12 +115,15 @@ public class SystemArchitecture {
 ```java
 @Aspect
 public class BeforeExample {
+    /**
+     * 使用切点定义
+     */
     @Before("com.xyz.myapp.SystemArchitecture.inWebLayer()")
     public void doWebCheck() {
     }
     
     /**
-     * 同上
+     * 直接使用切点表达式
      */
     @Before("within(com.xyz.someapp.web..*)")
     public void doWebCheck() {
@@ -158,7 +162,7 @@ public class BeforeExample {
 ```
 
 #### Advice参数
-advice可以将第一个参数定义为`org.aspectj.lang.JoinPoint`(around需要定义为JoinPoint的子类`ProceedingJoinPoint`)
+advice可以将第一个参数定义为`org.aspectj.lang.JoinPoint`(around类型需要定义为JoinPoint的子类`org.aspectj.lang.ProceedingJoinPoint`)
 
 其他参数定义如:
 
@@ -179,7 +183,7 @@ public void validateAccount(Account account) {
 }
 ```
 
-以下PCD支持类似的方式: `this`,`target`,注解类的`@within`,`@target`,`@annotation`,`@args`,如:
+除了`args`以下PCD也支持类似的方式: `this`,`target`,注解类的`@within`,`@target`,`@annotation`,`@args`,如:
 
 ```java
 @Retention(RetentionPolicy.RUNTIME)
@@ -208,7 +212,7 @@ public void audit(JoinPoint jp, Object bean, Auditable auditable) {
 
 如果参数只有一个,可以不设置,或者使用`-g:vars`进行编译,否则由于参数名擦除,在运行时spring可能抛出异常
 
-#### advice顺序
+#### Advice顺序
 1. 同一aspect,不同类型的advice运行在同一个join point,会按固定的优先级执行: 
     1. around前
     2. before
@@ -221,9 +225,8 @@ public void audit(JoinPoint jp, Object bean, Auditable auditable) {
     1. 将两个advice合并为一个
     2. 将两个advice放到不同aspect中
 
-## xml方式的不足
-* xml需要与java代码结合,两者是分离的
-* xml比java代码多点限制
-
 ## 注意事项
 * 在`<tx:annotation-driven/>`或`<aop:aspectj-autoproxy/>`或`<aop:config/>`中任一配置`proxy-target-class="true"`将会使他们全都使用cglib代理
+* 使用xml方式有以下不足:
+    * xml需要与java代码结合,两者是分离的
+    * xml比java代码多点限制
