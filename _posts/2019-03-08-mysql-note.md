@@ -48,3 +48,34 @@ InnoDB存储引擎既支持行级锁（row-level locking），也支持表级锁
 * 一致性(Consistent): 事务保证数据库整体数据的完整性与业务数据的一致性
 * 隔离性(Isolated): 事务互不影响
 * 持久性(Durable): 事务完成后改动持久化
+
+## MySQL的复制原理以及流程
+1. 主：binlog线程——记录下所有改变了数据库数据的语句，放进master上的binlog中；
+2. 从：io线程——在使用start slave 之后，负责从master上拉取 binlog 内容，放进 自己的relay log中；
+3. 从：sql执行线程——执行relay log中的语句；
+
+## join
+![](http://wxb.github.io/images/mysql/01.jpg)
+
+* 默认的join是指`inner join`
+* mysql不支持`full join`,但可以通过`union`关键字合并`left join`与`right join`来模拟`full join`
+* 对于所有的连接类型而言，就是将符合关键字 ON 后条件匹配的对应组合都成为一条记录出现在结果集中，对于两个表中的某条记录可能存在：一对多 或者 多对一 的情况会在结果集中形成多条记录，只是另外一个表中查询的字段信息相同而已；千万不要误以为：左外连接查询到的记录数是和左表的记录数一样，对于其他连接一样，不能形成这个误区。
+
+### explicit/implicit inner join
+explicit(显式) inner join:
+
+```mysql
+select * from
+table a inner join table b
+on a.id = b.id;
+```
+
+implicit(隐式) inner join:
+
+```mysql
+select a.*, b.*
+from table a, table b
+where a.id = b.id;
+```
+
+在mysql里,他们在性能上差不多
