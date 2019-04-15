@@ -89,3 +89,10 @@ where a.id = b.id;
 4. 最重要的是,查询缓存是由一个全局锁在控制，每次更新查询缓存的内存块都需要进行锁定
 
 因此,如果数据库基本上是只读的,可以再考虑开启查询缓存,否则可能性能反而会下降.
+
+## explain
+
+### type
+效率比较: 
+
+system>const>eq_ref>ref>fulltext>ref_or_null>index_merge>unique_subquery>index_subquery>range>index>ALL
