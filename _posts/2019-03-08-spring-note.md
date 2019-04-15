@@ -69,3 +69,8 @@ author: kongkongye
 * 如果类实现了`InvocationHandler`接口,则使用`JDK动态代理`,为你生成代理对象.
 * 如果类没有实现上述接口,则使用`CGLIB动态代理`,生成代理对象.
 
+## Spring Boot
+约定优于配置:
+
+1. 有约定的默认值
+2. 可以自定义配置
