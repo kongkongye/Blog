@@ -96,3 +96,31 @@ where a.id = b.id;
 效率比较: 
 
 system>const>eq_ref>ref>fulltext>ref_or_null>index_merge>unique_subquery>index_subquery>range>index>ALL
+
+## 语法与执行顺序
+
+### 语法顺序
+1. select [distinct]
+2. from
+3. join
+4. on
+5. where
+6. group by
+7. having
+8. union
+9. order by
+10. limit
+
+### 执行顺序
+由优化器(optimizer)决定,不一定完全正确:
+
+1. from
+2. on
+3. join
+4. where
+5. group by
+6. having
+7. select
+8. distinct
+9. union
+10. order by
