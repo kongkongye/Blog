@@ -7,9 +7,7 @@
 
 # Site settings
 title: 空空叶博客
-brief-intro: 学习与开发笔记
-home_title: 空空叶博客
-home_description: 学习与开发笔记
+description: 学习与开发笔记
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://blog.kongkongye.com" # the base hostname & protocol for your site
 
