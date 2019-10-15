@@ -11,7 +11,7 @@ layout: default
             {% for post in paginator.posts %}
               <li>
                 <h2>
-                  <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                  <a title="{{ post.title }}" class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
                 </h2>
                 <div class="label">
                     <div class="label-card">
@@ -37,7 +37,7 @@ layout: default
                     {{post.excerpt}}
                 </div>
                 <div class="read-all">
-                    <a  href="{{ post.url | prepend: site.baseurl }}"><i class="fa fa-newspaper-o"></i>查看文章</a>
+                    <a title="查看文章" href="{{ post.url | prepend: site.baseurl }}"><i class="fa fa-newspaper-o"></i>查看文章</a>
                 </div>
                 <hr>
               </li>
@@ -75,7 +75,7 @@ layout: default
                 </div>
                 <ul class="content-ul" recent>
                     {% for post in site.posts offset: 0 limit: 10  %}
-                        <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+                        <li><a title="{{ post.title }}" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
