@@ -6,7 +6,7 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: 空空叶博客
+title: 空空叶笔记
 description: 学习与开发笔记
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://blog.kongkongye.com" # the base hostname & protocol for your site
@@ -23,7 +23,7 @@ zhihu_username:
 linkedIn_username:
 dribbble_username:
 
-description_footer: 给自己定了个小目标,每周发一篇博客!
+description_footer: 给自己定了个小目标,每周发一篇笔记!
 
 # statistic analysis 统计代码
 # 百度统计 id，将统计代码替换为自己的百度统计id，即

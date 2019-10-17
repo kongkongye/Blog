@@ -14,9 +14,9 @@
     * [移动端适配](#移动端适配)
     * [Footer](#footer)
     * [统计](#统计)
-* [博客主题使用方法](#博客主题使用方法)
+* [笔记主题使用方法](#笔记主题使用方法)
     * [1. 安装 ruby 和 jekyll 环境](#1-安装-ruby-和-jekyll-环境)
-    * [2. 复制博客主题代码](#2-复制博客主题代码)
+    * [2. 复制笔记主题代码](#2-复制笔记主题代码)
     * [3. 修改参数](#3-修改参数)
         * [基本信息](#基本信息)
         * [链接信息](#链接信息)
@@ -96,7 +96,7 @@
 
 ### 统计
 
-博客支持百度统计和 Google Analytics，只需在`_config.yml`中配置响应的id即可，代码如下。
+笔记支持百度统计和 Google Analytics，只需在`_config.yml`中配置响应的id即可，代码如下。
 
 ```yml
 # statistic analysis 统计代码
@@ -107,13 +107,13 @@ baidu_tongji_id: xxxxxxxxxxxx
 google_analytics_id: UA-xxxxxxxx # google 分析追踪id
 ```
 
-## 博客主题使用方法
+## 笔记主题使用方法
 
 欢迎使用这个主题，以下简单说一下使用方法。
 
 ### 1. 安装 ruby 和 jekyll 环境
 
-这一步和第5步主要是为了让博客系统在本地跑起来，如果不想在本地运行，可以无视这两步，但我还是强烈建议试着先在本地跑起来，没有什么问题后再推送的 GitHub 上。
+这一步和第5步主要是为了让笔记系统在本地跑起来，如果不想在本地运行，可以无视这两步，但我还是强烈建议试着先在本地跑起来，没有什么问题后再推送的 GitHub 上。
 
 Windows 用户可以直接使用 [RubyInstaller](http://rubyinstaller.org/) 安装 ruby 环境。后续的操作中可能还会提示安装 DevKit，根据提示操作即可。
 
@@ -133,7 +133,7 @@ gem install jekyll
 
 ![jekyll logo](http://jekyllcn.com/img/logo-2x.png)
 
-### 2. 复制博客主题代码
+### 2. 复制笔记主题代码
 
 可以直接 clone 、下载 或 fork 这个仓库的代码即可
 
@@ -197,7 +197,7 @@ google_analytics_id: UA-72449510-4 # google 分析追踪id
 ```
 ---
 layout: post
-title:  "对这个 jekyll 博客主题的改版和重构"
+title:  "对这个 jekyll 笔记主题的改版和重构"
 date:   2016-03-12 11:40:18 +0800
 categories: jekyll
 tags: jekyll 端口 markdown Foxit RubyGems HTML CSS
@@ -250,15 +250,15 @@ Configuration file: E:/GitWorkSpace/blog/_config.yml
   Server running... press ctrl-c to stop.
 ```
 
-在本地访问 localhost:4000 即可看到博客主页。
+在本地访问 localhost:4000 即可看到笔记主页。
 
-若安装了 Foxit 福昕pdf阅读器可能会占用4000端口，关闭 Foxit服务 或切换 jekyll 端口即可解决。详情见文章：[对这个 jekyll 博客主题的改版和重构](http://gaohaoyang.github.io/2016/03/12/jekyll-theme-version-2.0/)
+若安装了 Foxit 福昕pdf阅读器可能会占用4000端口，关闭 Foxit服务 或切换 jekyll 端口即可解决。详情见文章：[对这个 jekyll 笔记主题的改版和重构](http://gaohaoyang.github.io/2016/03/12/jekyll-theme-version-2.0/)
 
 若正在使用全局代理，可能会报错502，关闭全局代理即可。
 
 ### 6. 发布到 GitHub
 
-没什么问题，推送到自己的博客仓库即可。
+没什么问题，推送到自己的笔记仓库即可。
 
 ## License
 
