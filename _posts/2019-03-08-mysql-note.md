@@ -124,3 +124,47 @@ system>const>eq_ref>ref>fulltext>ref_or_null>index_merge>unique_subquery>index_s
 8. distinct
 9. union
 10. order by
+
+## 大小写
+* `utf8mb4_bin`大小写敏感，`utf8mb4_unicode_ci`不区分大小写
+
+## 转换整个数据库的编码与字符集
+
+### 1. 数据库编码与字符集修改
+
+```mysql
+ALTER DATABASE database CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+### 2. 表的编码与字符集修改
+先运行下面的语句查询出结果，然后复制结果执行：
+
+```mysql
+SELECT CONCAT("ALTER TABLE ",TABLE_SCHEMA,".",TABLE_NAME," CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;") 
+    AS alter_sql
+FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = 'database';
+```
+
+### 3. 列的编码与字符集修改
+先运行下面的语句查询出结果，然后复制结果执行：
+
+```mysql
+SELECT CONCAT("ALTER TABLE ",TABLE_SCHEMA,".",TABLE_NAME," CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;") 
+    AS alter_sql
+FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = 'database';
+```
+
+## linux mysql 8.0安装后初始化步骤
+### 1. 查看初始密码
+进入`/var/log/mysqld.log`文件查看初始密码,
+找到以下格式的行：`[Server] A temporary password is generated for root@localhost: xxxxxx`
+
+### 2. 修改初始密码
+输入`alter user root@localhost identified by 'xxx';`
+
+### 3. 新建远程用户
+输入`create user root@'%' identified by 'xxx';`
+
+授予权限：`GRANT ALL PRIVILEGES ON *.* TO root@'%';`
