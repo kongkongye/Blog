@@ -51,6 +51,7 @@ excerpt_separator: "\n\n\n\n"
 
 # paginate
 plugins: [jekyll-paginate]
+gems: [jekyll-paginate]
 paginate: 10
 
 keep_files: ["imgs", "resources"]
