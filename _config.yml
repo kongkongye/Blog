@@ -9,7 +9,7 @@
 title: 空空叶博客
 description: 学习与开发博客
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://blog.kongkongye.com" # the base hostname & protocol for your site
+url: "https://kongkongye.github.io" # the base hostname & protocol for your site
 
 permalink: /:year/:month/:day/:title/
 
@@ -51,6 +51,6 @@ excerpt_separator: "\n\n\n\n"
 
 # paginate
 plugins: [jekyll-paginate]
-paginate: 6
+paginate: 10
 
 keep_files: ["imgs", "resources"]
