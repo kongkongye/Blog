@@ -29,7 +29,7 @@ description_footer: 给自己定个小目标,每周发一篇博客!
 # 百度统计 id，将统计代码替换为自己的百度统计id，即
 # hm.src = "//hm.baidu.com/hm.js?xxxxxxxxxxxx";
 # xxxxx字符串
-baidu_tongji_id: # 15095585476eb792ca88ce3679191070
+baidu_tongji_id: ba09dc5d6fd4ff733856b701f734206b # 15095585476eb792ca88ce3679191070
 google_analytics_id: G-7BPVW3Z8ND # UA-93246511-1 # google 分析追踪id
 
 # Build settings
