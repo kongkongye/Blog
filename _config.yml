@@ -50,8 +50,8 @@ tag_dir: tag/
 excerpt_separator: "\n\n\n\n"
 
 # paginate
-plugins: [jekyll-paginate]
-gems: [jekyll-paginate]
+plugins: [jekyll-paginate, jekyll-sitemap]
+# gems: [jekyll-paginate, jekyll-sitemap]
 paginate: 10
 
 keep_files: ["imgs", "resources"]
